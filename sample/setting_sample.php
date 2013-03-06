@@ -18,6 +18,7 @@ $GLOBALS['Scylla']['DB'] = array(
 	'GROUP_1' => array(
 		'PARTITION' => false,
 		'DB_NAME' => 'no_partition',
+		'CACHE_CATEGORY' => 'default',
 		'MASTER' => array(
 			'HOST' => 'localhost',
 			'PORT' => '3306',
@@ -62,6 +63,7 @@ $GLOBALS['Scylla']['DB'] = array(
 		),
 		// 専用の設定ここまで ----------
 		'DB_NAME' => 'table_partition',
+		'CACHE_CATEGORY' => 'cache2',
 		'PART_NUM' => 2,
 		'PART_ARR' => array(
 			1 => array(
@@ -124,6 +126,7 @@ $GLOBALS['Scylla']['DB'] = array(
 		'PARTITION_TYPE' => SCYLLA_PARTITION_TYPE_MOD,
 		// 専用の設定ここまで ----------
 		'DB_NAME' => 'mod_partition',
+		'CACHE_CATEGORY' => 'cache2',
 		'PART_NUM' => 2,
 		'PART_ARR' => array(
 			1 => array(
@@ -212,6 +215,7 @@ $GLOBALS['Scylla']['DB'] = array(
 		),
 		// 専用の設定ここまで ----------
 		'DB_NAME' => 'range_partition',
+		'CACHE_CATEGORY' => 'cache2',
 		'PART_NUM' => 3,
 		'PART_ARR' => array(
 			1 => array(
@@ -309,6 +313,7 @@ $GLOBALS['Scylla']['DB'] = array(
 		),
 		// 専用の設定ここまで ----------
 		'DB_NAME' => 'range_partition',
+		'CACHE_CATEGORY' => 'cache2',
 		'PART_NUM' => 2,
 		'PART_ARR' => array(
 			1 => array(
@@ -368,4 +373,48 @@ $GLOBALS['Scylla']['DB'] = array(
 // PDOの設定
 $GLOBALS['Scylla']['PDO_SETTING'] = array(
 	PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+);
+
+// キャッシュサーバの設定
+$GLOBALS['Scylla']['CACHE'] = array(
+	'default' => array(
+		'HOST_ARR' => array(
+			array(
+				'HOST' => 'localhost',
+				'PORT' => 11211,
+				'PERSISTENT' => true,
+			),
+			array(
+				'HOST' => 'localhost',
+				'PORT' => 11211,
+				'PERSISTENT' => true,
+			),
+			array(
+				'HOST' => 'localhost',
+				'PORT' => 11211,
+				'PERSISTENT' => true,
+			),
+		),
+		'DEFAULT_EXPIRE' => 86400
+	),
+	'cache2' => array(
+		'HOST_ARR' => array(
+			array(
+				'HOST' => 'localhost',
+				'PORT' => 11211,
+				'PERSISTENT' => true,
+			),
+			array(
+				'HOST' => 'localhost',
+				'PORT' => 11211,
+				'PERSISTENT' => true,
+			),
+			array(
+				'HOST' => 'localhost',
+				'PORT' => 11211,
+				'PERSISTENT' => true,
+			),
+		),
+		'DEFAULT_EXPIRE' => 86400
+	),
 );

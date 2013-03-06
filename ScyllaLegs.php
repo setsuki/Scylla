@@ -42,6 +42,7 @@ class ScyllaLegs
 			case 'group':
 			case 'limit':
 			case 'lock':
+			case 'cache':
 				// 全接続に対して実行(返り値は取らない)
 				foreach ($this->node_arr as $db) {
 					call_user_func_array(array($db, $func_name), $args);

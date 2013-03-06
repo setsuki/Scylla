@@ -28,6 +28,13 @@ class Scylla
 	{
 		// ノードクラスファイルを読み込む
 		require_once __DIR__ . sprintf('/%s/%s.php', strtolower(static::NODE_OBJECT_NAME), static::NODE_OBJECT_NAME);
+		if ($GLOBALS['Scylla']['CACHE']) {
+			// キャッシュの設定があるならキャッシュのホストを設定
+			$class_name = static::NODE_OBJECT_NAME;
+			foreach ($GLOBALS['Scylla']['CACHE'] as $category => $category_info) {
+				$class_name::setCacheHost($category_info['HOST_ARR'], $category_info['DEFAULT_EXPIRE'], $category);
+			}
+		}
 	}
 	
 	/**
@@ -108,6 +115,10 @@ class Scylla
 			if (!empty($GLOBALS['Scylla']['PDO_SETTING'])) {
 				// PDOの設定があるならセット
 				$this->node_arr[$db_group][$server_id][$server_type]->setPDOAttribute($GLOBALS['Scylla']['PDO_SETTING']);
+			}
+			if (!empty($GLOBALS['Scylla']['DB'][$db_group]['CACHE_CATEGORY'])) {
+				// キャッシュカテゴリの指定があるならセット
+				$this->node_arr[$db_group][$server_id][$server_type]->setDefaultCacheCategory($GLOBALS['Scylla']['DB'][$db_group]['CACHE_CATEGORY']);
 			}
 		}
 		
