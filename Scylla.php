@@ -259,8 +259,12 @@ class Scylla
 			$partition_info_db = $this->getNode($GLOBALS['Scylla']['DB'][$db_group]['PARTITION_TABLE_ARR'][$table]['DB_GROUP']);
 			$key_col_name = $GLOBALS['Scylla']['DB'][$db_group]['PARTITION_TABLE_ARR'][$table]['KEY_COL'];
 			$server_id_col_name = $GLOBALS['Scylla']['DB'][$db_group]['PARTITION_TABLE_ARR'][$table]['SERVER_ID_COL'];
-			// TODO: setsuki Orthrosがキャッシュに対応したらキャッシュを使うようにする
-			$connection_info = $partition_info_db->table($table)->column(array($key_col_name, $server_id_col_name))->where(array($key_col_name => $id))->selectOne();
+			if (isset($GLOBALS['Scylla']['CACHE'])) {
+				// キャッシュが使えるならキャッシュを使う
+				$connection_info = $partition_info_db->table($table)->column(array($key_col_name, $server_id_col_name))->where(array($key_col_name => $id))->cache()->selectOne();
+			} else {
+				$connection_info = $partition_info_db->table($table)->column(array($key_col_name, $server_id_col_name))->where(array($key_col_name => $id))->selectOne();
+			}
 			if (empty($connection_info)) {
 				throw new Exception(sprintf('[Scylla] DBテーブルからのサーバID取得失敗 対応したサーバ情報なし db_group=%s table=%s id=%s', $db_group, $table, $id));
 			}
