@@ -183,7 +183,7 @@ class Scylla
 			if (0 < $slave_info['WEIGHT']) {
 				// 重みが設定されているなら配列に格納
 				$slave_weight_arr[$slave_num] = $slave_info['WEIGHT'];
-				$total_slave_weight = $slave_info['WEIGHT'];
+				$total_slave_weight += $slave_info['WEIGHT'];
 			}
 		}
 		
@@ -197,7 +197,7 @@ class Scylla
 		$total_num = 0;
 		foreach ($slave_weight_arr as $slave_num => $weight) {
 			$total_num += $weight;
-			if ($rand_num >= $total_num) {
+			if ($rand_num <= $total_num) {
 				return $slave_num;
 			}
 		}
