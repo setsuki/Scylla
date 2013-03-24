@@ -616,14 +616,14 @@ class Scylla
 	 * 
 	 * @param	string		$func_name			関数名
 	 * @param	array		$args				引数の配列
-	 * @return	mixed							
+	 * @return	Orthros							
 	 */
 	public function __call($func_name, $args = array())
 	{
 		switch ($func_name) {
 			case 'beginTransaction':
 				// トランザクションをかけるメソッドの場合は明示的にマスタに接続する
-				return call_user_func_array(array($this->getNode(SCYLLA_DEFAULT_DB_GROUP, 1, true), $func_name), $args);
+				return call_user_func_array(array($this->getNode(SCYLLA_DEFAULT_DB_GROUP, 1, SCYLLA_SERVER_TYPE_MASTER), $func_name), $args);
 			default:
 				// デフォルトDBへそのまま投げる
 				return call_user_func_array(array($this->getNode(SCYLLA_DEFAULT_DB_GROUP), $func_name), $args);
